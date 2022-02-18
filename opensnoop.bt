@@ -34,7 +34,7 @@ tracepoint:syscalls:sys_exit_openat
 	$fd = $ret > 0 ? $ret : -1;
 	$errno = $ret > 0 ? 0 : - $ret;
     $fname = @filename[tid];
-	printf("%s open(%s)=%d\n", comm, str($fname), $ret);
+	// printf("open(\"%s\",\"%s\",%d)\n", comm, str($fname), $ret);
 	delete(@filename[tid]);
 	@fd_map[tid, $fd] = $fname;
 }
@@ -57,14 +57,13 @@ tracepoint:syscalls:sys_exit_mmap
     $fname = @mmap_fname[tid];
 	$mmap_start = args->ret;
 	$mmap_len = @mmap_len[tid];
-	$mmap_end = $mmap_start + $mmap_len;
-	printf("%s, mmap(fd=%d, fname=%s, fname=%X,off=%d, len=%d)=0x%X-0x%X\n",
-			comm, @mmap_fd[tid], str($fname), $fname, @mmap_off[tid], $mmap_len, $mmap_start, $mmap_end);
+	printf("mmap(\"%s\", fd=%d, fname=\"%s\",off=%d, len=%d, ret=0x%X)\n",
+			comm, @mmap_fd[tid], str($fname), @mmap_off[tid], $mmap_len, $mmap_start);
 }
 
 tracepoint:exceptions:page_fault_user
 {
-	printf("%s page_fault_user(address=0x%X, ip=0x%X)\n", comm, args->address, args->ip);
+	printf("page_fault_user(\"%s\", address=0x%X, ip=0x%X)\n", comm, args->address, args->ip);
 }
 
 END
