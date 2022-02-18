@@ -2,6 +2,6 @@
 ```
 sudo bpftrace -l '*syscalls*mmap*'  -v
 
-sudo bpftrace opensnoop.bt -c `which ls`
+sudo bpftrace mmap_pagefault_snoop.bt -c `which ls`
 
 ```
