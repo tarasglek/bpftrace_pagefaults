@@ -23,7 +23,7 @@ def page_fault_user(comm, address, ip):
             (end, fname) = mmap_entries[base_address]
             # print('bisect', hex(address), hex(mmap_keys[pos]), address >= mmap_keys[pos] and address < end, fname, address - base_address)
             if end > address:
-                print(fname, hex(address - base_address))
+                print(fname, (address - base_address))
                 return
     print(f"{address} not found")
 
