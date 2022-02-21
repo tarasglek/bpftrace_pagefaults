@@ -57,13 +57,13 @@ tracepoint:syscalls:sys_exit_mmap
     $fname = @mmap_fname[tid];
 	$mmap_start = args->ret;
 	$mmap_len = @mmap_len[tid];
-	printf("mmap(\"%s\", fd=%d, fname=\"%s\",off=%d, len=%d, ret=0x%lX)\n",
-			comm, @mmap_fd[tid], str($fname), @mmap_off[tid], $mmap_len, $mmap_start);
+	printf("mmap(\"%s-%d\", fd=%d, fname=\"%s\",off=%d, len=%d, ret=0x%lX)\n",
+			comm, pid, @mmap_fd[tid], str($fname), @mmap_off[tid], $mmap_len, $mmap_start);
 }
 
 tracepoint:exceptions:page_fault_user
 {
-	printf("page_fault_user(\"%s\", address=0x%lX, ip=0x%lX)\n", comm, args->address, args->ip);
+	printf("page_fault_user(\"%s-%d\", address=0x%lX, ip=0x%lX)\n", comm, pid, args->address, args->ip);
 }
 
 END

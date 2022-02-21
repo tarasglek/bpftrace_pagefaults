@@ -8,22 +8,21 @@ mmap_keys = []
 def mmap(comm, fd, fname, off, len, ret):
     if fname == "":
         fname = str(fd)
-    mmap_entries[ret] = (ret + len, fname)
+    mmap_entries[ret] = (ret + len, fname, off)
     global mmap_keys
     bisect.insort(mmap_keys, ret)
 
 def page_fault_user(comm, address, ip):
-    # print(mmap_entries)
     pos = bisect.bisect_left(mmap_keys, address)
     if pos >=0 and len(mmap_keys) > pos:
         if mmap_keys[pos] != address:
             pos = pos - 1
         if pos >= 0:
             base_address = mmap_keys[pos]
-            (end, fname) = mmap_entries[base_address]
+            (end, fname, offset) = mmap_entries[base_address]
             # print('bisect', hex(address), hex(mmap_keys[pos]), address >= mmap_keys[pos] and address < end, fname, address - base_address)
             if end > address:
-                print(fname, (address - base_address))
+                print(fname, (address - base_address + offset))
                 return
     print(f"{address} not found")
 
