@@ -1,4 +1,4 @@
-# EBPF for Tracing How Firefox Loads Libraries
+# EBPF for Tracing How Firefox Uses Page Faults to Load Libraries
 
 Modern browsers are some of the most complicated programs ever written, main Firefox library on my system is over 130Mbytes. Doing 130MB of IO poorly can be quite a performance hit, even with SSDs :). It's good to know how to trace that sort of IO.
 
@@ -30,4 +30,8 @@ EBPF in Linux lets you inject limited hooks into various parts of kernel and use
 
 ## Limitations
 
-1. We can trace mmap() syscalls for loading libraries, but there isn't an mmap syscall when the initial executable gets mapped by Linux(happens as part of exec syscall, need to trace something else for that?).
+1. We can trace mmap() syscalls for loading libraries, but there isn't an mmap syscall when the initial executable gets mapped by Linux(happens as part of exec syscall, need to trace something else for that?). This can also be worked-around by parsing `/proc/#pid#/smaps`.
+
+2. This doesn't actually trace how the pages are loaded from disk. We'd have to add more ebpf tracepoints to better understand file IO. Eg we are paging in 4KB increments on x86, but Linux ammortizes some of the away by doing IO in read-ahead chunks of some multiple of that.
+
+3. Had to do this on x86 as my arm64 VM is missing the `tracepoint:exceptions:page_fault_user` all of the exception tracepoints. What the hell, why?
