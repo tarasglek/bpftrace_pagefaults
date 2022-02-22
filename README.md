@@ -32,10 +32,14 @@ Linux libraries reside in files on disk. Dynamic library loader calls `open()` a
 
 Overall the IO pattern looks good: the toolchain bug I discovered has stayed fixed! One can see that the while-program-compilation optimization in paper above is not present. I did this example on Ubuntu, suspect the picture looks different on [Fedora](https://fedoraproject.org/wiki/LTOByDefault#Current_status) due to LTO.
 
-## Limitations
+## Limitations + Next Steps
 
 1. We can trace mmap() syscalls for loading libraries, but there isn't an mmap syscall when the initial executable gets mapped by Linux(happens as part of exec syscall, need to trace something else for that?). This can also be worked-around by parsing `/proc/#pid#/smaps`.
 
 2. This doesn't actually trace how the pages are loaded from disk. We'd have to add more ebpf tracepoints to better understand file IO. Eg we are paging in 4KB increments on x86, but Linux ammortizes some of the away by doing IO in read-ahead chunks of some multiple of that. This would be a fun follow-up project.
 
 3. Had to do this on x86 as my arm64 VM is missing the `tracepoint:exceptions:page_fault_user` and all of the other `exception:` tracepoints. What the hell, why?
+
+4. Would be cool to include this sort of tooling as part of CI/CD to track mmap behavior.
+
+5. This project shows the page-fault pattern during library loads. Checkout a complimentary [parse_smaps](https://github.com/craig08/parse_smaps) util for analyzing memory footprint of mmaped files.
