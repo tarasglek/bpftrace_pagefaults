@@ -2,9 +2,9 @@
 
 Modern browsers are some of the most complicated programs ever written. For example, the main Firefox library on my system is over 130Mbytes. Doing 130MB of IO poorly can be quite a performance hit, even with SSDs! :). 
 
-Few people seem to understand how memory-mapped IO works. There are no pre-canned tools to observe it on Linux, even fewer know how to observe it. Years ago, when I was working on Firefox startup performance, I discovered that libraries were loaded backwards ([paper](https://arxiv.org/pdf/1010.2196.pdf), GCC [bug](https://gcc.gnu.org/bugzilla/show_bug.cgi?id=46770), [deleted blog](https://news.ycombinator.com/item?id=1385994)) on Linux. Figuring this out was super-painful, involved learning SystemTap and a setting up a just-right kernel with headers and symbols.
+Few people seem to understand how memory-mapped IO works. There are no pre-canned tools to observe it on Linux, even fewer know how to observe it. Years ago, when I was working on Firefox startup performance, I discovered that libraries were loaded backwards ([blog1](https://htmlpreview.github.io/?https://github.com/tarasglek/taras.glek.net.old/blob/jekyll/blog/2010/03/24/linux-why-loading-binaries-from-disk-sucks/index.html), [blog2](https://htmlpreview.github.io/?https://github.com/tarasglek/taras.glek.net.old/blob/jekyll/blog/2010/05/27/startup-backward-constructors/index.html), [paper](https://arxiv.org/pdf/1010.2196.pdf), GCC [bug](https://gcc.gnu.org/bugzilla/show_bug.cgi?id=46770)) on Linux. Figuring this out was super-painful, involved learning SystemTap and a setting up a just-right kernel with headers and symbols.
 
-I decided to use above example to investigate solving this problem using modern EBPF. Noticed that there wasn't any bpf that I could google for tracing mmap-IO. This is now documented in [github](https://github.com/tarasglek/bpftrace_pagefaults).
+I decided to use above example to investigate solving this problem using modern EBPF. Noticed that there wasn't any bpf that I could google for tracing mmap-IO. This is now fun and somewhat easy and is documented in [github](https://github.com/tarasglek/bpftrace_pagefaults).
 
 ## Theory
 
