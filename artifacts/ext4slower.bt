@@ -13,6 +13,8 @@
  * This is a bpftrace version of the bcc tool of the same name.
  *
  * 11-Feb-2020  Juan-Lee Pang   Created this.
+ * https://arxiv.org/pdf/1403.6997.pdf
+ * kprobe:ext4_readpage
  */
 #include <linux/fs.h>
 
@@ -63,6 +65,17 @@ kprobe:ext4_sync_file
     @func[tid] = "S";
     @start[tid] = nsecs;
 }
+
+kprobe:mpage_readpage,
+kretprobe:mpage_readpage,
+kprobe:do_mpage_readpage,
+kretprobe:do_mpage_readpage
+
+{
+    //@filp[tid] = args->file;
+    printf("ext4_readpage\n")
+}
+
 
 kretprobe:ext4_file_read_iter,
 kretprobe:ext4_file_write_iter,
