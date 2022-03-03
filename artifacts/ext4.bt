@@ -1,10 +1,22 @@
+/*
+gets complete mmap read info from ext4. 
+struct readahead_control {
+	struct file *file;
+	struct address_space *mapping;
+	struct file_ra_state *ra;
+	pgoff_t _index;
+	unsigned int _nr_pages;
+	unsigned int _batch_count;
+};
+*/
+#include <linux/pagemap.h>
 
-kprobe:mpage_readpage,
-kretprobe:mpage_readpage,
-kprobe:do_mpage_readpage,
-kretprobe:do_mpage_readpage,
-kfunc:ext4_mpage_readpages
+kretfunc:ext4_mpage_readpages
 {
-    //@filp[tid] = args->file;
-    printf("ext4_readpage\n")
+    $page = args->page;
+    $node = args->inode;
+    $rac = args->rac;
+    $nr_pages = $rac->_nr_pages;
+    printf ("%ld %s\n", $rac->_index * 4096, str($rac->file->f_path.dentry->d_name.name));
 }
+
