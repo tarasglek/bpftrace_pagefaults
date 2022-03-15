@@ -30,7 +30,7 @@ Linux libraries reside in files on disk. Dynamic library loader calls `open()` a
 
 ## Conclusion
 
-Overall the IO pattern looks good: the toolchain bug I discovered has stayed fixed! One can see that the while-program-compilation optimization in paper above is not present. I did this example on Ubuntu, suspect the picture looks different on [Fedora](https://fedoraproject.org/wiki/LTOByDefault#Current_status) due to LTO.
+Overall the IO pattern looks good: the toolchain bug I discovered has stayed fixed! One can see that the whole-program-compilation optimization in paper above is not present. I did this example on Ubuntu, suspect the picture looks different on [Fedora](https://fedoraproject.org/wiki/LTOByDefault#Current_status) due to LTO.
 
 ## Limitations + Next Steps
 
@@ -43,3 +43,7 @@ Overall the IO pattern looks good: the toolchain bug I discovered has stayed fix
 4. Would be cool to include this sort of tooling as part of CI/CD to track mmap behavior.
 
 5. This project shows the page-fault pattern during library loads. Checkout a complimentary [parse_smaps](https://github.com/craig08/parse_smaps) util for analyzing memory footprint of mmaped files.
+
+
+---------
+[HN Comments](https://news.ycombinator.com/item?id=30440162)
