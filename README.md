@@ -6,7 +6,7 @@ Note that at the time of writing bpf is really new. This worked for me with 5.13
 
 My first attempt to do this was via proper hooks as exposed by the `page_fault_user` tracepoint. This is documented under [page_fault_user](page_fault_user/).
 
-Upside: you get exact addresses that faulted. Eg you can correlate them exactly with current-instruction, etc.
+Upside: you get exact addresses that faulted. Eg you can correlate them exactly with the [program counter](https://en.wikipedia.org/wiki/Program_counter), etc.
 
 Downside: this requires a lot of syscall-tracking machinery and post-processing and is thus error-prone. The biggest, most obvious hole is that it doesn't capture memory mapping that happens during program creation(eg the executable itself).
 
