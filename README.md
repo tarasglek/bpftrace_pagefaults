@@ -4,7 +4,7 @@ Note that at the time of writing bpf is really new. This worked for me with 5.13
 
 ## 1. Obvious, but complicated way
 
-My first attempt to do this was via proper hooks as exposed by the `page_fault_user` tracepoint. This is documented under [page_fault_user](page_fault_user/README.md).
+My first attempt to do this was via proper hooks as exposed by the `page_fault_user` tracepoint. This is documented under [page_fault_user](page_fault_user/).
 
 Upside: you get exact addresses that faulted. Eg you can correlate them exactly with current-instruction, etc.
 
@@ -13,7 +13,7 @@ Downside: this requires a lot of syscall-tracking machinery and post-processing 
 
 ## 2. Reliable, tied to ext4 way
 
-Idea here is to hook ext4 mmap-handler. Documented under [ext4](ext4/REAME.md).
+Idea here is to hook ext4 mmap-handler. Documented under [ext4](ext4/).
 
 Upside: This is guaranteed to catch every mmap IO.
 
